@@ -39,7 +39,7 @@
               "lasso-0.7.2" = "sha256-ibpHfge3nEtwLNghKEQT7ZpTe5kgDf8hbBb9qYHyHcQ=";
             };
           };
-          cargoBuildFlags = "-p cargo-steel-lib -p steel-interpreter";
+          cargoBuildFlags = "-p cargo-steel-lib -p steel-interpreter -p steel-language-server";
           buildInputs = [openssl] ++ lib.optionals stdenv.isDarwin [darwin.apple_sdk.frameworks.Security];
           nativeBuildInputs = [
             pkg-config
@@ -54,6 +54,8 @@
             $out/bin/steel install.scm
             popd
             rm "$out/bin/cargo-steel-lib"
+            export STEEL_LSP_HOME="$out/etc/steel-lsp-home"
+            mkdir -p $STEEL_LSP_HOME
           '';
         };
     in rec {
